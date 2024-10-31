@@ -1,0 +1,30 @@
+---
+import ThemeSwitcher from "~/components/theme-switcher.astro";
+import LanguageSwitcher from "~/components/lenguage-switcher.astro";
+import type { NavItem } from "~/types";
+
+const navItems: Array<NavItem> = [{ title: "TypeDecoration", url: "/" }];
+---
+
+<header id="page-header" class="border-default/95 w-full border-b py-0">
+  <div class="container flex items-center justify-between">
+    <nav>
+      <ul class="flex items-center gap-6 text-default">
+        {
+          navItems.map(({ title, url }) => (
+            <li>
+              <a class="text-sm" href={url}>
+                {title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <ThemeSwitcher showbyDefault />
+      <LanguageSwitcher />
+    </div>
+  </div>
+</header>

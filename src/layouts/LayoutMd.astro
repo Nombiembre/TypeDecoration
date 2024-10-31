@@ -1,0 +1,44 @@
+---
+import Footer from "~/components/footer.astro";
+import HeaderMd from "~/components/header-md.astro";
+import Head from "~/components/meta/Head.astro";
+import Prose from "~/components/Prose.astro";
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+import type { Metadata } from "~/types";
+
+interface Props {
+  metadata: Metadata;
+  title: string;
+  lastModified: Date;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const { metadata, title, lastModified } = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang} class="h-full motion-safe:scroll-smooth" data-theme="dark">
+  <Head metadata={metadata} />
+  <body
+    class="flex h-full flex-col overflow-x-hidden bg-default text-default text-base selection:bg-secondary selection:text-white"
+  >
+    <HeaderMd />
+    <main
+      transition:animate="fade"
+      class="container my-10 max-w-3xl text-default"
+    >
+      <div class="mb-10 space-y-4">
+        <h1 class="font-bold text-xl">{title}</h1>
+        <span class="text-slate-600/80 text-sm"
+          >{t("last-updated")} {lastModified.toLocaleDateString()}</span
+        >
+      </div>
+      <Prose>
+        <slot />
+      </Prose>
+    </main>
+    <Footer />
+  </body>
+</html>

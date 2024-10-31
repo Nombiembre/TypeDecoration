@@ -1,0 +1,61 @@
+---
+import "~/styles/global.css";
+const { generator, site } = Astro;
+const image = new URL("social.jpg", site);
+import { ViewTransitions } from "astro:transitions";
+import type { Metadata } from "~/types";
+
+interface Props {
+  metadata: Metadata;
+}
+
+const { metadata } = Astro.props;
+
+const { title, description } = metadata;
+---
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta name="generator" content={generator} />
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  <!-- social media -->
+  <meta property="og:title" content="Astro" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={image} />
+  <meta property="og:url" content={site} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <ViewTransitions />
+
+  <!-- initialize theme -->
+  <script is:inline>
+    document.addEventListener("astro:page-load", () => {
+      const themeSaved = localStorage.getItem("theme");
+
+      if (themeSaved) {
+        document.documentElement.dataset.theme = themeSaved;
+      } else {
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        document.documentElement.dataset.theme = prefersDark ? "dark" : "light";
+      }
+
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (event) => {
+          if (!localStorage.getItem("theme")) {
+            document.documentElement.dataset.theme = event.matches
+              ? "dark"
+              : "light";
+          }
+        });
+    });
+  </script>
+</head>

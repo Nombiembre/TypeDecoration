@@ -1,0 +1,35 @@
+---
+import type { NavItem } from "~/types";
+
+const links: Array<NavItem> = [
+  {
+    title: "Support",
+    url: "/support",
+  },
+  {
+    title: "Privacy Policy",
+    url: "/privacy",
+  },
+  {
+    title: "Terms and conditions",
+    url: "/terms",
+  },
+];
+---
+
+<footer class="relative border-t border-default/80 z-50 bg-default text-default mt-auto">
+  <div class="container text-sm flex items-center justify-between">
+    <div>
+      <span>© {new Date().getFullYear()} TypeDecoration</span>
+    </div>
+    <ul class="flex items-center gap-6 ">
+      {
+        links.map((link) => (
+          <li>
+            <a href={link.url}>{link.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</footer>
